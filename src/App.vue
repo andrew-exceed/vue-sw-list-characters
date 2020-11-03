@@ -1,8 +1,8 @@
 <template>
 <div class="content">
-  <h1>Characters</h1>
-  <CharactersList  />
-  <CharactersModal :characterUrl="activeChar"/>
+  <h1>Star Wars Characters</h1>
+  <CharactersList @show-modal='showModal' />
+  <CharactersModal :characterUrl="visibleChar" @close="closeModal" :isModalVisible='isModalVisible'/>
 </div>
 </template>
 
@@ -14,19 +14,30 @@ export default {
   name: 'App',
   data(){
     return{
-      activeChar: 'https://swapi.dev/api/people/1/'
+      visibleChar: null,
+      isModalVisible: false,
     }
   },
   components: {
     CharactersList,
     CharactersModal,
-  }
+  },
+  methods: {
+    showModal(charUrl) {
+      this.visibleChar = charUrl;
+      console.log('done',  this.visibleChar)
+      this.isModalVisible = true;
+    },
+    closeModal() {
+      this.isModalVisible = false;
+    }
+  },
 }
 </script>
 
 <style>
 .content{
-  max-width: 1100px;
+  max-width: 1000px;
   width: 100%;
   margin: 0 auto;
 }
