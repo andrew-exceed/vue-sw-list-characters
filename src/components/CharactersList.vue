@@ -7,16 +7,20 @@
         </li>
     </ul>
     <div class="pagination">
+
         <div class="prev" @click='prevPage'>
             <a v-if='this.prevPageValue' @click='prevPage'>&lt;prev</a>
         </div>
+
         <div v-for="(q, index) in allPageCount" :key="index">
             <a v-if="this.currentPage != (index+1)" @click='toPage(index + 1)'>{{q}}</a>
             <div v-else>{{q}}</div>
         </div>
+
         <div  class="next">
             <a v-if='this.nextPageValue'  @click='nextPage'>next></a>
         </div>
+
     </div>
   </div>
 </template>
@@ -41,20 +45,14 @@ export default {
         .then((data) => {
             this.updateList(data);
             this.allPageCount = Math.ceil(data.count / data.results.length)
-            console.log("123123123", this.allPageCount)
         });
     },
     methods:{   
-        // getImgUrl(q) {
-        //     return require(`@/assets/${q.toString().split(' ').join('')}.jpg`)
-        // },
         updateList(data){
-            console.log('update list', data);
             this.charactersList = data.results;
             this.nextPageValue = data.next;
             this.prevPageValue = data.previous;
             this.getCurrentPage();
-            
         },
         nextPage(){
             fetch(this.nextPageValue)
@@ -75,7 +73,6 @@ export default {
             }); 
         },
         toPage(newUrl){
-            console.log("ToPage", newUrl);   
             fetch(`https://swapi.dev/api/people/?page=${newUrl}`)
             .then((response) => {
                 return response.json();
@@ -87,17 +84,13 @@ export default {
         getCurrentPage(){
             if(this.nextPageValue !== null){
                 this.currentPage = +this.nextPageValue.substr(-1)-1;
-                console.log('next Page', this.currentPage+1);
             }else{
                 this.currentPage = this.allPageCount;
-                console.log('ELSE',this.currentPage, this.allPageCount )
-
             }
         },
         showModal(url){
             this.$emit('show-modal', url);
         },
-
     },
 }
 </script>
@@ -115,7 +108,6 @@ ul {
 li {
   display: block;
   width: 150px;
-  /* height: 150px; */
   background-color: #42b983;
   margin: 5px 10px;
   cursor: pointer;  

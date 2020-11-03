@@ -1,11 +1,10 @@
 <template>
-
+    <!-- оверлей на том же уровне, что и модалка, чтоб по нажатию на него - закрывать модалку -->
+    <!-- но при этом можно кликать на модалку без закрытия -->
     <div v-show="isModalVisible" @click="close" class="overlay">
     </div>
     <div v-show="isModalVisible"  class="modal">
         <p>
-            <!-- <img src="https://i1.wp.com/sova.ponominalu.ru/wp-content/uploads/2018/03/filmz.ru_f_88509.jpg?fit=1200%2C794&ssl=1" /> -->
-            <!-- <img :src="getImgUrl(character.name)" /> -->
             <img :src="character.name && `/img/${character.name.split(' ').join('')}.jpg`" />
         </p>
         <p>{{character.name}}</p>
@@ -26,35 +25,28 @@ export default {
             character: {},
         }
     },
-    
     methods:{
         close(){
             this.$emit('close');
         },
-        //  getImgUrl(q) {
-        //     if(this.character.name){return require(`@/assets/${q.toString().split(' ').join('')}.jpg`)}
-        //     else{return '@/assets/plugImg.jpg'}
-        // },
     },
+    // следим за изменением пропы
     watch: {
         characterUrl: {
             immediate: true, 
-            handler (newUrl, oldUrl) {
-                console.log('change new:',newUrl,'old:', oldUrl)
+            handler (newUrl) {
                 if(newUrl){
                     fetch(newUrl)
                     .then((response) => {
                         return response.json();
                     })
                     .then((data) => {
-                        console.log('char',data);
                         this.character = data;
                     });
                 }
             }
         }
     },
-
 }
 </script>
 

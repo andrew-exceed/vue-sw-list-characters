@@ -25,7 +25,6 @@ export default {
   methods: {
     showModal(charUrl) {
       this.visibleChar = charUrl;
-      console.log('done',  this.visibleChar)
       this.isModalVisible = true;
     },
     closeModal() {
